@@ -14,22 +14,6 @@ def create_books_table(cursor):
    - Qolgan ustunlarni yuqoridagi shartlarda berilgan xususiyatlarga muvofiq yarating.
 3. Jadval oldindan mavjud bo‘lsa, uni qayta yaratmang.
 
-#### Misol:
-```python
-def create_books_table(cursor):
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS books (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(255),
-            author VARCHAR(255),
-            published_year YEAR,
-            genre VARCHAR(100),
-            price FLOAT,
-            available BOOLEAN
-        )
-    """)
-```
-
 ---
 
 ### **2. Foydalanuvchidan ma'lumot kiritish**
@@ -44,16 +28,6 @@ def insert_book(cursor, title, author, published_year, genre, price, available):
 #### Nima qilish kerak:
 1. Foydalanuvchidan interaktiv tarzda kitob ma’lumotlarini so‘rang.
 2. Ma’lumotlarni tekshirib, `books` jadvaliga qo‘shing.
-
-#### Misol:
-```python
-def insert_book(cursor, title, author, published_year, genre, price, available):
-    query = """
-    INSERT INTO books (title, author, published_year, genre, price, available)
-    VALUES (%s, %s, %s, %s, %s, %s)
-    """
-    cursor.execute(query, (title, author, published_year, genre, price, available))
-```
 
 ---
 
@@ -70,15 +44,6 @@ def show_all_books(cursor):
 1. `SELECT * FROM books` so‘rovini bajarib, barcha ma’lumotlarni olib keling.
 2. Natijalarni formatlab konsolda chiqaring.
 
-#### Misol:
-```python
-def show_all_books(cursor):
-    cursor.execute("SELECT * FROM books")
-    books = cursor.fetchall()
-    for book in books:
-        print(book)
-```
-
 ---
 
 ### **4. Ma'lum bir shart bo'yicha qidiruv**
@@ -93,16 +58,6 @@ def search_books_by_author_or_genre(cursor, search_type, search_value):
 #### Nima qilish kerak:
 1. Foydalanuvchidan qidiruv turini (`author` yoki `genre`) va qiymatini so‘rang.
 2. Mos keluvchi ma’lumotlarni olib keling va chiqaring.
-
-#### Misol:
-```python
-def search_books_by_author_or_genre(cursor, search_type, search_value):
-    query = f"SELECT * FROM books WHERE {search_type} = %s"
-    cursor.execute(query, (search_value,))
-    results = cursor.fetchall()
-    for book in results:
-        print(book)
-```
 
 ---
 
@@ -119,13 +74,6 @@ def update_book_price(cursor, book_id, new_price):
 1. Foydalanuvchidan kitob `id`si va yangi narxni so‘rang.
 2. Kitob narxini yangilang.
 
-#### Misol:
-```python
-def update_book_price(cursor, book_id, new_price):
-    query = "UPDATE books SET price = %s WHERE id = %s"
-    cursor.execute(query, (new_price, book_id))
-```
-
 ---
 
 ### **6. Kitob mavjudligini o'zgartirish**
@@ -141,13 +89,6 @@ def update_book_availability(cursor, book_id, available):
 1. Foydalanuvchidan kitob `id`si va mavjudlik holatini (`True/False`) so‘rang.
 2. Ma’lumotni jadvalda yangilang.
 
-#### Misol:
-```python
-def update_book_availability(cursor, book_id, available):
-    query = "UPDATE books SET available = %s WHERE id = %s"
-    cursor.execute(query, (available, book_id))
-```
-
 ---
 
 ### **7. Kitobni o'chirish**
@@ -162,13 +103,6 @@ def delete_book(cursor, book_id):
 #### Nima qilish kerak:
 1. Foydalanuvchidan o‘chirilishi kerak bo‘lgan kitob `id`si so‘raladi.
 2. Kitob jadvaldan o‘chirib tashlanadi.
-
-#### Misol:
-```python
-def delete_book(cursor, book_id):
-    query = "DELETE FROM books WHERE id = %s"
-    cursor.execute(query, (book_id,))
-```
 
 ---
 
