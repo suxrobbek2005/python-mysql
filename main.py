@@ -1,9 +1,11 @@
 import mysql.connector
+import settings
 
 connection = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='Djcoder1120'
+    host=settings.host,
+    user=settings.user,
+    password=settings.password,
+    port=settings.port
 )
 
 if connection.is_connected():
