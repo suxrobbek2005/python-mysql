@@ -1,40 +1,44 @@
 import mysql.connector
 import settings
-
-connection = mysql.connector.connect(
-    host=settings.host,
-    user=settings.user,
-    password=settings.password,
-    port=settings.port,
-    # database=settings.db_name
+from db import (
+    create_books_table,
+    insert_book,
+    show_all_books,
 )
 
-cursor = connection.cursor()
 
-cursor.execute("USE shop")
+if __name__ == "__main__":
+    connection = mysql.connector.connect(
+        host=settings.host,
+        user=settings.user,
+        password=settings.password,
+        port=settings.port
+    )
 
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS hodimlar (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(64),
-    department VARCHAR(128),
-    locaiton TEXT
-)
-''')
+    cursor = connection.cursor()
 
-# cursor.execute("SHOW TABLES")
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS {settings.db_name}")
+    cursor.execute(f"USE {settings.db_name}")
 
-rows = cursor.fetchall()
+    # create table
+    create_books_table(cursor)
+    connection.commit()
 
-print(rows)
+    # insert books
+    insert_book(
+        cursor=cursor,
+        title="Hamsa",
+        author="Alisher Navoiy",
+        published_year=1470,
+        genre='Roman',
+        price=20,
+        available=True
+    )
+    connection.commit()
 
-cursor.close()
-connection.close()
+    # show books
+    show_all_books(cursor)
 
-
-# educaiton db
-# students table (id, name, grade, age)
-# 10 students
-# select all
-# filter age increasing
-
+    # close
+    cursor.close()
+    connection.close()
